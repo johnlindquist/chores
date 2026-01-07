@@ -57,7 +57,8 @@ function renderCompactKid(kid: KidChores): string {
 export function renderMarkup(
   schedule: DaySchedule,
   date: DateTime,
-  instanceUuid: string
+  instanceUuid: string,
+  benQuote?: string | null
 ): MarkupResult {
   const dateStr = formatDate(date);
   const containerId = `chores-${instanceUuid.slice(0, 8)}`;
@@ -164,8 +165,33 @@ export function renderMarkup(
         padding-bottom: 8px;
         margin-bottom: 12px;
       }
+      #${containerId} .ben-quote {
+        margin-top: 16px;
+        padding: 12px;
+        border: 2px solid #000;
+        background: #f0f0f0;
+      }
+      #${containerId} .ben-quote-label {
+        font-size: 12px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        margin-bottom: 4px;
+      }
+      #${containerId} .ben-quote-text {
+        font-size: 16px;
+        font-style: italic;
+      }
     </style>
   `;
+
+  // Ben quote section (only if quote exists)
+  const benQuoteHtml = benQuote
+    ? `<div class="ben-quote">
+        <div class="ben-quote-label">Ben says:</div>
+        <div class="ben-quote-text">"${escapeHtml(benQuote)}"</div>
+      </div>`
+    : "";
 
   // Full screen layout (800x480)
   const fullMarkup = `
@@ -178,6 +204,7 @@ export function renderMarkup(
       <div class="kids-grid two-col">
         ${schedule.kids.map((kid) => renderKidSection(kid, 5)).join("")}
       </div>
+      ${benQuoteHtml}
     </div>
   `;
 

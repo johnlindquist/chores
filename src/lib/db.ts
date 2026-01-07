@@ -109,6 +109,22 @@ export async function deletePluginInstance(uuid: string): Promise<void> {
   await sql`DELETE FROM plugin_instances WHERE uuid = ${uuid}`;
 }
 
+// Ben's Current Quote
+export async function getCurrentBenQuote(): Promise<string | null> {
+  const result = await sql<{ quote: string }>`
+    SELECT quote FROM current_ben_quote WHERE id = 1
+  `;
+  return result.rows[0]?.quote || null;
+}
+
+export async function setCurrentBenQuote(quote: string): Promise<void> {
+  await sql`
+    INSERT INTO current_ben_quote (id, quote, updated_at)
+    VALUES (1, ${quote}, NOW())
+    ON CONFLICT (id) DO UPDATE SET quote = ${quote}, updated_at = NOW()
+  `;
+}
+
 // Default schedule template
 function getDefaultSchedule(): string {
   return `@kids Ava, Ben, Chloe, Dylan

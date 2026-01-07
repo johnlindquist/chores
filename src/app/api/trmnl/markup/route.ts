@@ -1,6 +1,6 @@
 import { type NextRequest, NextResponse } from "next/server";
 import { DateTime } from "luxon";
-import { getPluginInstance } from "@/lib/db";
+import { getPluginInstance, getCurrentBenQuote } from "@/lib/db";
 import { getTodayChores } from "@/lib/schedule-parser";
 import { renderMarkup } from "@/lib/markup-renderer";
 
@@ -66,8 +66,11 @@ export async function POST(request: NextRequest) {
     // Get today's chores
     const todaySchedule = getTodayChores(instance.schedule_text, timezone);
 
+    // Get Ben's current quote
+    const benQuote = await getCurrentBenQuote();
+
     // Render all markup layouts
-    const markup = renderMarkup(todaySchedule, today, userUuid);
+    const markup = renderMarkup(todaySchedule, today, userUuid, benQuote);
 
     console.log(`Markup generated for ${userUuid}, date: ${today.toISODate()}`);
 
