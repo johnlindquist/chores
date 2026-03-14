@@ -1,18 +1,16 @@
-import { type NextRequest, NextResponse } from "next/server";
 import { DateTime } from "luxon";
-import { getPluginInstance, getCurrentBenQuote } from "@/lib/db";
-import { getTodayChores } from "@/lib/schedule-parser";
+import { type NextRequest, NextResponse } from "next/server";
+import { getDailyBookOfMormonScripture } from "@/lib/daily-scripture";
+import { getPluginInstance } from "@/lib/db";
 import { renderMarkup } from "@/lib/markup-renderer";
+import { getTodayChores } from "@/lib/schedule-parser";
 
 export async function POST(request: NextRequest) {
   // Get the authorization header
   const authHeader = request.headers.get("Authorization");
   if (!authHeader || !authHeader.startsWith("Bearer ")) {
     console.error("Missing or invalid Authorization header");
-    return NextResponse.json(
-      { error: "Unauthorized" },
-      { status: 401 }
-    );
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
   const accessToken = authHeader.slice(7);
@@ -32,10 +30,7 @@ export async function POST(request: NextRequest) {
 
     if (!userUuid) {
       console.error("Missing user_uuid in request");
-      return NextResponse.json(
-        { error: "Missing user_uuid" },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: "Missing user_uuid" }, { status: 400 });
     }
 
     // Get the plugin instance
@@ -44,17 +39,14 @@ export async function POST(request: NextRequest) {
       console.error(`Instance not found: ${userUuid}`);
       return NextResponse.json(
         { error: "Instance not found" },
-        { status: 404 }
+        { status: 404 },
       );
     }
 
     // Verify access token
     if (instance.access_token !== accessToken) {
       console.error("Access token mismatch");
-      return NextResponse.json(
-        { error: "Unauthorized" },
-        { status: 401 }
-      );
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
     // Get timezone (default to America/Denver if not set)
@@ -66,20 +58,29 @@ export async function POST(request: NextRequest) {
     // Get today's chores
     const todaySchedule = getTodayChores(instance.schedule_text, timezone);
 
-    // Get Ben's current quote
-    const benQuote = await getCurrentBenQuote();
+    // Get daily scripture
+    const dailyScripture = getDailyBookOfMormonScripture(today);
 
     // Render all markup layouts
-    const markup = renderMarkup(todaySchedule, today, userUuid, benQuote);
+    const markup = renderMarkup(todaySchedule, today, userUuid, dailyScripture);
 
-    console.log(`Markup generated for ${userUuid}, date: ${today.toISODate()}`);
+    console.log(
+      JSON.stringify({
+        event: "trmnl_markup_generated",
+        userUuid,
+        date: today.toISODate(),
+        timezone,
+        scriptureReference: dailyScripture.reference,
+        scriptureIndex: dailyScripture.index,
+      }),
+    );
 
     return NextResponse.json(markup);
   } catch (error) {
     console.error("Markup generation error:", error);
     return NextResponse.json(
       { error: "Internal server error" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

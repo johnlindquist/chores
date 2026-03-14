@@ -12,6 +12,7 @@ import {
   VOCAB_WORDS,
   type WordEntry,
 } from "../data/words";
+import type { DailyScripture } from "./daily-scripture";
 import type { DaySchedule, KidChores } from "./schedule-parser";
 
 // Deterministic hash for a date string + seed.
@@ -68,11 +69,36 @@ function formatDate(date: DateTime): string {
   return date.toFormat("cccc, LLL d");
 }
 
+function truncateText(text: string, maxLength: number): string {
+  if (text.length <= maxLength) {
+    return text;
+  }
+  return `${text.slice(0, maxLength - 1).trimEnd()}…`;
+}
+
+function renderFooter(
+  footer: DailyScripture | null | undefined,
+  maxLength: number,
+): string {
+  const active: DailyScripture = footer ?? {
+    label: "SCRIPTURE",
+    reference: "Mosiah 2:17",
+    text: "Serving other people is serving God.",
+    index: 0,
+    total: 1,
+    dateKey: "fallback",
+  };
+
+  const body = `${active.reference} — ${active.text}`;
+
+  return `<div class="quote"><span class="quote-label">${escapeHtml(active.label)}:</span><span class="quote-body">${escapeHtml(truncateText(body, maxLength))}</span></div>`;
+}
+
 export function renderMarkup(
   schedule: DaySchedule,
   date: DateTime,
   instanceUuid: string,
-  benQuote?: string | null,
+  dailyScripture?: DailyScripture | null,
 ): MarkupResult {
   const dateStr = formatDate(date);
   const id = `c-${instanceUuid.slice(0, 8)}`;
@@ -98,8 +124,9 @@ export function renderMarkup(
       #${id} .sneak-cat { font-size: 9px; font-weight: 700; text-transform: uppercase; color: #666; }
       #${id} .sneak-word { font-size: 13px; font-weight: 700; }
       #${id} .sneak-def { font-size: 9px; color: #333; }
-      #${id} .quote { position: absolute; bottom: 0; left: 0; right: 0; background: #000; color: #fff; padding: 12px 24px; font-size: 16px; display: flex; gap: 10px; }
-      #${id} .quote-label { font-weight: 700; }
+      #${id} .quote { position: absolute; bottom: 0; left: 0; right: 0; background: #000; color: #fff; padding: 12px 24px; font-size: 16px; display: flex; gap: 10px; align-items: baseline; }
+      #${id} .quote-label { font-weight: 700; flex: 0 0 auto; }
+      #${id} .quote-body { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
     </style>
   `;
 
@@ -117,8 +144,9 @@ export function renderMarkup(
     return `<div class="kid"><div class="kid-name">${escapeHtml(kid.name)}</div>${choreHtml}${moreHtml}</div>`;
   };
 
-  const displayQuote = benQuote || "Don't quote me on this";
-  const quoteHtml = `<div class="quote"><span class="quote-label">BEN:</span><span>"${escapeHtml(displayQuote)}"</span></div>`;
+  const fullFooterHtml = renderFooter(dailyScripture, 140);
+  const halfHorizontalFooterHtml = renderFooter(dailyScripture, 100);
+  const halfVerticalFooterHtml = renderFooter(dailyScripture, 92);
 
   const sneakWords = getDailyWords(date);
   const sneakHtml = `<div class="sneak"><div class="sneak-label">Word Sneak - Sneak these into conversation!</div><div class="sneak-words">${sneakWords.map((w) => `<div class="sneak-item"><div class="sneak-cat">${escapeHtml(w.cat)}</div><div class="sneak-word">${escapeHtml(w.word)}</div><div class="sneak-def">${escapeHtml(w.def)}</div></div>`).join("")}</div></div>`;
@@ -133,7 +161,7 @@ export function renderMarkup(
       </div>
       <div class="grid">${schedule.kids.map((k) => renderKid(k, 5)).join("")}</div>
       ${sneakHtml}
-      ${quoteHtml}
+      ${fullFooterHtml}
     </div>
   `;
 
@@ -156,7 +184,7 @@ export function renderMarkup(
         <span class="date">${dateStr}</span>
       </div>
       <div class="grid">${schedule.kids.map((k) => renderKid(k, 3)).join("")}</div>
-      ${quoteHtml}
+      ${halfHorizontalFooterHtml}
     </div>
   `;
 
@@ -180,7 +208,7 @@ export function renderMarkup(
         <span class="date">${dateStr}</span>
       </div>
       <div class="grid">${schedule.kids.map((k) => renderKid(k, 3)).join("")}</div>
-      ${quoteHtml}
+      ${halfVerticalFooterHtml}
     </div>
   `;
 
