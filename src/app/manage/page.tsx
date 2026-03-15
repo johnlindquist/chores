@@ -192,8 +192,8 @@ function ManageContent() {
             placeholder="@kids Ava, Ben, Chloe, Dylan..."
           />
           <p className="mt-2 text-xs text-gray-500">
-            Use @kids to define kids, @mon-@sun for weekly, @YYYY-MM-DD for overrides.
-            Format: Kid Name: chore 1; chore 2
+            Use @kids to define kids, @mon-@sun for weekly, @YYYY-MM-DD for
+            overrides. Format: Kid Name: chore 1; chore 2
           </p>
         </div>
 
@@ -261,23 +261,32 @@ function ManageContent() {
 
         {/* Help */}
         <div className="bg-gray-50 rounded-lg p-4 text-sm text-gray-600">
-          <h3 className="font-medium text-gray-800 mb-2">Schedule Format Help</h3>
+          <h3 className="font-medium text-gray-800 mb-2">
+            Schedule Format Help
+          </h3>
           <ul className="space-y-1">
             <li>
-              <code className="bg-gray-200 px-1 rounded">@kids</code> - Define kid names (comma separated)
+              <code className="bg-gray-200 px-1 rounded">@kids</code> - Define
+              kid names (comma separated)
             </li>
             <li>
               <code className="bg-gray-200 px-1 rounded">@mon</code> to{" "}
-              <code className="bg-gray-200 px-1 rounded">@sun</code> - Weekly schedule sections
+              <code className="bg-gray-200 px-1 rounded">@sun</code> - Weekly
+              schedule sections
             </li>
             <li>
-              <code className="bg-gray-200 px-1 rounded">@YYYY-MM-DD</code> - Date override (takes priority)
+              <code className="bg-gray-200 px-1 rounded">@YYYY-MM-DD</code> -
+              Date override (takes priority)
             </li>
             <li>
-              <code className="bg-gray-200 px-1 rounded">Kid: chore; chore</code> - Assign chores
+              <code className="bg-gray-200 px-1 rounded">
+                Kid: chore; chore
+              </code>{" "}
+              - Assign chores
             </li>
             <li>
-              <code className="bg-gray-200 px-1 rounded">*: chore</code> - Global chore for everyone
+              <code className="bg-gray-200 px-1 rounded">*: chore</code> -
+              Global chore for everyone
             </li>
             <li>
               <code className="bg-gray-200 px-1 rounded">#</code> - Comment line

@@ -11,7 +11,7 @@ export async function GET(request: NextRequest) {
   if (!code || !installationCallbackUrl) {
     return NextResponse.json(
       { error: "Missing code or installation_callback_url" },
-      { status: 400 }
+      { status: 400 },
     );
   }
 
@@ -22,7 +22,7 @@ export async function GET(request: NextRequest) {
     console.error("Missing TRMNL_CLIENT_ID or TRMNL_CLIENT_SECRET env vars");
     return NextResponse.json(
       { error: "Server configuration error" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 
@@ -46,7 +46,7 @@ export async function GET(request: NextRequest) {
       console.error("TRMNL OAuth error:", errorText);
       return NextResponse.json(
         { error: "OAuth token exchange failed" },
-        { status: 500 }
+        { status: 500 },
       );
     }
 
@@ -57,7 +57,7 @@ export async function GET(request: NextRequest) {
       console.error("No access_token in OAuth response:", oauthData);
       return NextResponse.json(
         { error: "No access token received" },
-        { status: 500 }
+        { status: 500 },
       );
     }
 
@@ -68,9 +68,6 @@ export async function GET(request: NextRequest) {
     return NextResponse.redirect(installationCallbackUrl);
   } catch (error) {
     console.error("Installation error:", error);
-    return NextResponse.json(
-      { error: "Installation failed" },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: "Installation failed" }, { status: 500 });
   }
 }

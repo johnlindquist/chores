@@ -40,7 +40,10 @@ export function parseScheduleText(text: string): ParsedSchedule {
     // Parse @kids directive
     if (trimmed.toLowerCase().startsWith("@kids")) {
       const kidsStr = trimmed.slice(5).trim();
-      result.kidNames = kidsStr.split(",").map((k) => k.trim()).filter(Boolean);
+      result.kidNames = kidsStr
+        .split(",")
+        .map((k) => k.trim())
+        .filter(Boolean);
       continue;
     }
 
@@ -104,7 +107,7 @@ export function parseScheduleText(text: string): ParsedSchedule {
 
 export function getChoresForDate(
   schedule: ParsedSchedule,
-  date: DateTime
+  date: DateTime,
 ): DaySchedule {
   const dateStr = date.toFormat("yyyy-MM-dd").toLowerCase();
   const weekday = date.weekdayLong?.toLowerCase().slice(0, 3) || "mon";
@@ -142,7 +145,7 @@ export function getChoresForDate(
 
 export function getTodayChores(
   scheduleText: string,
-  timezone: string
+  timezone: string,
 ): DaySchedule {
   const schedule = parseScheduleText(scheduleText);
   const today = DateTime.now().setZone(timezone);
@@ -152,7 +155,7 @@ export function getTodayChores(
 export function getWeekPreview(
   scheduleText: string,
   timezone: string,
-  days = 7
+  days = 7,
 ): Array<{ date: DateTime; schedule: DaySchedule }> {
   const schedule = parseScheduleText(scheduleText);
   const result: Array<{ date: DateTime; schedule: DaySchedule }> = [];

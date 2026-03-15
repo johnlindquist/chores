@@ -49,11 +49,42 @@ function getDailyWords(
   });
 }
 
-interface MarkupResult {
+export interface MarkupResult {
   markup: string;
   markup_half_horizontal: string;
   markup_half_vertical: string;
   markup_quadrant: string;
+}
+
+export interface MarkupMetrics {
+  fullLength: number;
+  halfHorizontalLength: number;
+  halfVerticalLength: number;
+  quadrantLength: number;
+}
+
+export interface ScheduleSummary {
+  kidCount: number;
+  totalChores: number;
+  emptyKidCount: number;
+}
+
+export function getMarkupMetrics(markup: MarkupResult): MarkupMetrics {
+  return {
+    fullLength: markup.markup.length,
+    halfHorizontalLength: markup.markup_half_horizontal.length,
+    halfVerticalLength: markup.markup_half_vertical.length,
+    quadrantLength: markup.markup_quadrant.length,
+  };
+}
+
+export function getScheduleSummary(schedule: DaySchedule): ScheduleSummary {
+  return {
+    kidCount: schedule.kids.length,
+    totalChores: schedule.kids.reduce((sum, kid) => sum + kid.chores.length, 0),
+    emptyKidCount: schedule.kids.filter((kid) => kid.chores.length === 0)
+      .length,
+  };
 }
 
 function escapeHtml(text: string): string {
@@ -69,44 +100,27 @@ function formatDate(date: DateTime): string {
   return date.toFormat("cccc, LLL d");
 }
 
-function truncateText(text: string, maxLength: number): string {
-  if (text.length <= maxLength) {
-    return text;
-  }
-  return `${text.slice(0, maxLength - 1).trimEnd()}…`;
-}
+type ScriptureLayout = "full" | "half-horizontal" | "half-vertical";
 
-function renderFooter(
-  footer: DailyScripture | null | undefined,
-  maxLength: number,
-): string {
-  const active: DailyScripture = footer ?? {
-    label: "SCRIPTURE",
-    reference: "Mosiah 2:17",
-    text: "Serving other people is serving God.",
-    index: 0,
-    total: 1,
-    dateKey: "fallback",
-  };
+type MarkupVariant = "full" | "half-horizontal" | "half-vertical" | "quadrant";
 
-  const body = `${active.reference} — ${active.text}`;
-
-  return `<div class="quote"><span class="quote-label">${escapeHtml(active.label)}:</span><span class="quote-body">${escapeHtml(truncateText(body, maxLength))}</span></div>`;
-}
-
-export function renderMarkup(
-  schedule: DaySchedule,
-  date: DateTime,
+function buildMarkupRootId(
   instanceUuid: string,
-  dailyScripture?: DailyScripture | null,
-): MarkupResult {
-  const dateStr = formatDate(date);
-  const id = `c-${instanceUuid.slice(0, 8)}`;
+  variant: MarkupVariant,
+): string {
+  const normalized = instanceUuid
+    .replace(/[^a-zA-Z0-9_-]/g, "")
+    .replace(/[-_]+$/g, "")
+    .slice(0, 16);
 
-  // Brutalist styles - large readable fonts for e-ink
-  const baseStyles = `
+  return `c-${normalized || "instance"}-${variant}`;
+}
+
+function getBaseStyles(id: string): string {
+  return `
     <style>
-      #${id} { font-family: Arial, Helvetica, sans-serif; background: #fff; padding: 0; height: 100%; box-sizing: border-box; position: relative; }
+      #${id} { font-family: Arial, Helvetica, sans-serif; background: #fff; padding: 0; height: 100%; box-sizing: border-box; display: flex; flex-direction: column; }
+      #${id} .content { min-height: 0; flex: 1 1 auto; overflow: hidden; }
       #${id} .header { background: #000; color: #fff; padding: 16px 24px; display: flex; justify-content: space-between; align-items: center; }
       #${id} .title { font-size: 36px; font-weight: 700; text-transform: uppercase; letter-spacing: 4px; color: #fff; }
       #${id} .date { font-size: 18px; border: 3px solid #fff; padding: 6px 12px; color: #fff; }
@@ -124,11 +138,51 @@ export function renderMarkup(
       #${id} .sneak-cat { font-size: 9px; font-weight: 700; text-transform: uppercase; color: #666; }
       #${id} .sneak-word { font-size: 13px; font-weight: 700; }
       #${id} .sneak-def { font-size: 9px; color: #333; }
-      #${id} .quote { position: absolute; bottom: 0; left: 0; right: 0; background: #000; color: #fff; padding: 12px 24px; font-size: 16px; display: flex; gap: 10px; align-items: baseline; }
-      #${id} .quote-label { font-weight: 700; flex: 0 0 auto; }
-      #${id} .quote-body { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+      #${id} .scripture { background: #000; color: #fff; padding: 10px 16px; display: grid; gap: 3px; }
+      #${id} .scripture-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; }
+      #${id} .scripture-reference { font-size: 13px; font-weight: 700; }
+      #${id} .scripture-body { font-size: 12px; line-height: 1.2; white-space: normal; }
     </style>
   `;
+}
+
+function getFallbackScripture(): DailyScripture {
+  return {
+    label: "SCRIPTURE",
+    reference: "Mosiah 2:17",
+    text: "When ye are in the service of your fellow beings ye are only in the service of your God.",
+    compactText:
+      "When ye are in the service of your fellow beings ye are only in the service of your God.",
+    index: 0,
+    total: 1,
+    dateKey: "fallback",
+  };
+}
+
+function renderScriptureBlock(
+  footer: DailyScripture | null | undefined,
+  layout: ScriptureLayout,
+): string {
+  const active = footer ?? getFallbackScripture();
+
+  return `<div class="scripture scripture--${layout}">
+    <div class="scripture-label">${escapeHtml(active.label)}</div>
+    <div class="scripture-reference">${escapeHtml(active.reference)}</div>
+    <div class="scripture-body">${escapeHtml(active.text)}</div>
+  </div>`;
+}
+
+export function renderMarkup(
+  schedule: DaySchedule,
+  date: DateTime,
+  instanceUuid: string,
+  dailyScripture?: DailyScripture | null,
+): MarkupResult {
+  const dateStr = formatDate(date);
+  const fullId = buildMarkupRootId(instanceUuid, "full");
+  const halfHorizontalId = buildMarkupRootId(instanceUuid, "half-horizontal");
+  const halfVerticalId = buildMarkupRootId(instanceUuid, "half-vertical");
+  const quadrantId = buildMarkupRootId(instanceUuid, "quadrant");
 
   // Helper to render a kid section
   const renderKid = (kid: KidChores, maxChores: number) => {
@@ -144,88 +198,104 @@ export function renderMarkup(
     return `<div class="kid"><div class="kid-name">${escapeHtml(kid.name)}</div>${choreHtml}${moreHtml}</div>`;
   };
 
-  const fullFooterHtml = renderFooter(dailyScripture, 140);
-  const halfHorizontalFooterHtml = renderFooter(dailyScripture, 100);
-  const halfVerticalFooterHtml = renderFooter(dailyScripture, 92);
+  const fullFooterHtml = renderScriptureBlock(dailyScripture, "full");
+  const halfHorizontalFooterHtml = renderScriptureBlock(
+    dailyScripture,
+    "half-horizontal",
+  );
+  const halfVerticalFooterHtml = renderScriptureBlock(
+    dailyScripture,
+    "half-vertical",
+  );
 
   const sneakWords = getDailyWords(date);
   const sneakHtml = `<div class="sneak"><div class="sneak-label">Word Sneak - Sneak these into conversation!</div><div class="sneak-words">${sneakWords.map((w) => `<div class="sneak-item"><div class="sneak-cat">${escapeHtml(w.cat)}</div><div class="sneak-word">${escapeHtml(w.word)}</div><div class="sneak-def">${escapeHtml(w.def)}</div></div>`).join("")}</div></div>`;
 
   // Full screen (800x480)
   const fullMarkup = `
-    <div id="${id}">
-      ${baseStyles}
+    <div id="${fullId}">
+      ${getBaseStyles(fullId)}
       <div class="header">
         <span class="title">Chores</span>
         <span class="date">${dateStr}</span>
       </div>
-      <div class="grid">${schedule.kids.map((k) => renderKid(k, 5)).join("")}</div>
-      ${sneakHtml}
+      <div class="content">
+        <div class="grid">${schedule.kids.map((k) => renderKid(k, 5)).join("")}</div>
+        ${sneakHtml}
+      </div>
       ${fullFooterHtml}
     </div>
   `;
 
   // Half horizontal (800x240) - 2 rows of 2
   const halfHorizontalMarkup = `
-    <div id="${id}">
-      ${baseStyles}
+    <div id="${halfHorizontalId}">
+      ${getBaseStyles(halfHorizontalId)}
       <style>
-        #${id} .header { padding: 10px 16px; }
-        #${id} .title { font-size: 24px; letter-spacing: 3px; }
-        #${id} .date { font-size: 14px; padding: 4px 8px; }
-        #${id} .grid { grid-template-columns: repeat(4, 1fr); }
-        #${id} .kid { padding: 10px; }
-        #${id} .kid-name { font-size: 18px; padding-bottom: 4px; margin-bottom: 6px; }
-        #${id} .chore { font-size: 14px; padding: 3px 0; }
-        #${id} .quote { padding: 8px 16px; font-size: 14px; }
+        #${halfHorizontalId} .header { padding: 10px 16px; }
+        #${halfHorizontalId} .title { font-size: 24px; letter-spacing: 3px; }
+        #${halfHorizontalId} .date { font-size: 14px; padding: 4px 8px; }
+        #${halfHorizontalId} .grid { grid-template-columns: repeat(4, 1fr); }
+        #${halfHorizontalId} .kid { padding: 10px; }
+        #${halfHorizontalId} .kid-name { font-size: 18px; padding-bottom: 4px; margin-bottom: 6px; }
+        #${halfHorizontalId} .chore { font-size: 14px; padding: 3px 0; }
+        #${halfHorizontalId} .scripture { padding: 8px 12px; }
+        #${halfHorizontalId} .scripture-reference { font-size: 11px; }
+        #${halfHorizontalId} .scripture-body { font-size: 10px; line-height: 1.15; }
       </style>
       <div class="header">
         <span class="title">Chores</span>
         <span class="date">${dateStr}</span>
       </div>
-      <div class="grid">${schedule.kids.map((k) => renderKid(k, 3)).join("")}</div>
+      <div class="content">
+        <div class="grid">${schedule.kids.map((k) => renderKid(k, 3)).join("")}</div>
+      </div>
       ${halfHorizontalFooterHtml}
     </div>
   `;
 
   // Half vertical (400x480) - single column
   const halfVerticalMarkup = `
-    <div id="${id}">
-      ${baseStyles}
+    <div id="${halfVerticalId}">
+      ${getBaseStyles(halfVerticalId)}
       <style>
-        #${id} .header { padding: 12px 16px; }
-        #${id} .title { font-size: 22px; letter-spacing: 2px; }
-        #${id} .date { font-size: 14px; padding: 4px 8px; }
-        #${id} .grid { grid-template-columns: 1fr 1fr; }
-        #${id} .kid { padding: 12px; border-right: 3px solid #000; border-bottom: 3px solid #000; }
-        #${id} .kid:nth-child(2n) { border-right: none; }
-        #${id} .kid-name { font-size: 18px; padding-bottom: 6px; margin-bottom: 8px; border-bottom: 2px solid #000; }
-        #${id} .chore { font-size: 14px; padding: 4px 0; }
-        #${id} .quote { padding: 8px 16px; font-size: 14px; }
+        #${halfVerticalId} .header { padding: 12px 16px; }
+        #${halfVerticalId} .title { font-size: 22px; letter-spacing: 2px; }
+        #${halfVerticalId} .date { font-size: 14px; padding: 4px 8px; }
+        #${halfVerticalId} .grid { grid-template-columns: 1fr 1fr; }
+        #${halfVerticalId} .kid { padding: 12px; border-right: 3px solid #000; border-bottom: 3px solid #000; }
+        #${halfVerticalId} .kid:nth-child(2n) { border-right: none; }
+        #${halfVerticalId} .kid-name { font-size: 18px; padding-bottom: 6px; margin-bottom: 8px; border-bottom: 2px solid #000; }
+        #${halfVerticalId} .chore { font-size: 14px; padding: 4px 0; }
+        #${halfVerticalId} .scripture { padding: 8px 12px; }
+        #${halfVerticalId} .scripture-reference { font-size: 11px; }
+        #${halfVerticalId} .scripture-body { font-size: 10px; line-height: 1.15; }
       </style>
       <div class="header">
         <span class="title">Chores</span>
         <span class="date">${dateStr}</span>
       </div>
-      <div class="grid">${schedule.kids.map((k) => renderKid(k, 3)).join("")}</div>
+      <div class="content">
+        <div class="grid">${schedule.kids.map((k) => renderKid(k, 3)).join("")}</div>
+      </div>
       ${halfVerticalFooterHtml}
     </div>
   `;
 
   // Quadrant (400x240) - compact list
   const quadrantMarkup = `
-    <div id="${id}">
-      ${baseStyles}
+    <div id="${quadrantId}">
+      ${getBaseStyles(quadrantId)}
       <style>
-        #${id} .header { padding: 8px 12px; }
-        #${id} .title { font-size: 18px; letter-spacing: 2px; }
-        #${id} .date { font-size: 12px; padding: 3px 6px; border-width: 2px; }
-        #${id} .grid { grid-template-columns: 1fr 1fr; }
-        #${id} .kid { padding: 8px 10px; border-width: 2px; }
-        #${id} .kid:nth-child(2n) { border-right: none; }
-        #${id} .kid-name { font-size: 14px; padding-bottom: 4px; margin-bottom: 6px; border-bottom: 2px solid #000; }
-        #${id} .chore { font-size: 12px; padding: 3px 0; }
-        #${id} .quote { display: none; }
+        #${quadrantId} .header { padding: 8px 12px; }
+        #${quadrantId} .title { font-size: 18px; letter-spacing: 2px; }
+        #${quadrantId} .date { font-size: 12px; padding: 3px 6px; border-width: 2px; }
+        #${quadrantId} .grid { grid-template-columns: 1fr 1fr; }
+        #${quadrantId} .kid { padding: 8px 10px; border-width: 2px; }
+        #${quadrantId} .kid:nth-child(2n) { border-right: none; }
+        #${quadrantId} .kid-name { font-size: 14px; padding-bottom: 4px; margin-bottom: 6px; border-bottom: 2px solid #000; }
+        #${quadrantId} .chore { font-size: 12px; padding: 3px 0; }
+        #${quadrantId} .scripture { display: none; }
       </style>
       <div class="header">
         <span class="title">Chores</span>

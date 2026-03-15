@@ -1,10 +1,18 @@
 import type { Meta, StoryObj } from "@storybook/nextjs-vite";
-import { ChoreDisplay, sampleKids, sampleDate, sampleQuote } from "../components/ChoreDisplay";
+import {
+  ChoreDisplay,
+  sampleKids,
+  sampleDate,
+  sampleQuote,
+} from "../components/ChoreDisplay";
 
 const meta: Meta<typeof ChoreDisplay> = {
   title: "TRMNL/ChoreDisplay",
   component: ChoreDisplay,
-  parameters: { layout: "centered", backgrounds: { default: "gray", values: [{ name: "gray", value: "#888" }] } },
+  parameters: {
+    layout: "centered",
+    backgrounds: { default: "gray", values: [{ name: "gray", value: "#888" }] },
+  },
   args: { date: sampleDate, kids: sampleKids, benQuote: sampleQuote },
 };
 export default meta;
@@ -40,11 +48,17 @@ export const ArtDeco: Story = {
           {kids.map((kid) => (
             <div key={kid.name} className="deco-kid">
               <div className="deco-name">{kid.name}</div>
-              {kid.chores.map((chore, i) => (<div key={i} className="deco-chore">{chore}</div>))}
+              {kid.chores.map((chore, i) => (
+                <div key={i} className="deco-chore">
+                  {chore}
+                </div>
+              ))}
             </div>
           ))}
         </div>
-        {benQuote && (<div className="deco-quote">— Ben says: "{benQuote}" —</div>)}
+        {benQuote && (
+          <div className="deco-quote">— Ben says: "{benQuote}" —</div>
+        )}
       </div>
     </ChoreDisplay>
   ),
@@ -53,7 +67,12 @@ export const ArtDeco: Story = {
 // 12. PIXEL - 8-bit game style
 export const Pixel: Story = {
   render: ({ date, kids, benQuote }) => (
-    <ChoreDisplay date={date} kids={kids} benQuote={benQuote} style={{ background: "#111" }}>
+    <ChoreDisplay
+      date={date}
+      kids={kids}
+      benQuote={benQuote}
+      style={{ background: "#111" }}
+    >
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
         .pixel { font-family: 'Press Start 2P', monospace; background: #111; color: #fff; height: 100%; padding: 18px; box-sizing: border-box; }
@@ -77,11 +96,17 @@ export const Pixel: Story = {
           {kids.map((kid) => (
             <div key={kid.name} className="pixel-kid">
               <div className="pixel-name">PLAYER: {kid.name.toUpperCase()}</div>
-              {kid.chores.map((chore, i) => (<div key={i} className="pixel-chore">{chore}</div>))}
+              {kid.chores.map((chore, i) => (
+                <div key={i} className="pixel-chore">
+                  {chore}
+                </div>
+              ))}
             </div>
           ))}
         </div>
-        {benQuote && (<div className="pixel-quote">♥ ♥ ♥ BEN: "{benQuote}" ♥ ♥ ♥</div>)}
+        {benQuote && (
+          <div className="pixel-quote">♥ ♥ ♥ BEN: "{benQuote}" ♥ ♥ ♥</div>
+        )}
       </div>
     </ChoreDisplay>
   ),
@@ -116,11 +141,15 @@ export const ElegantScript: Story = {
           {kids.map((kid) => (
             <div key={kid.name} className="script-kid">
               <div className="script-name">{kid.name}</div>
-              {kid.chores.map((chore, i) => (<div key={i} className="script-chore">{chore}</div>))}
+              {kid.chores.map((chore, i) => (
+                <div key={i} className="script-chore">
+                  {chore}
+                </div>
+              ))}
             </div>
           ))}
         </div>
-        {benQuote && (<div className="script-quote">~ {benQuote} ~</div>)}
+        {benQuote && <div className="script-quote">~ {benQuote} ~</div>}
       </div>
     </ChoreDisplay>
   ),
@@ -161,11 +190,17 @@ export const Postcard: Story = {
           {kids.map((kid) => (
             <div key={kid.name} className="post-kid">
               <div className="post-name">{kid.name}</div>
-              {kid.chores.map((chore, i) => (<div key={i} className="post-chore">→ {chore}</div>))}
+              {kid.chores.map((chore, i) => (
+                <div key={i} className="post-chore">
+                  → {chore}
+                </div>
+              ))}
             </div>
           ))}
         </div>
-        {benQuote && (<div className="post-quote">P.S. Ben says: "{benQuote}"</div>)}
+        {benQuote && (
+          <div className="post-quote">P.S. Ben says: "{benQuote}"</div>
+        )}
       </div>
     </ChoreDisplay>
   ),
@@ -174,7 +209,12 @@ export const Postcard: Story = {
 // 15. CINEMA MARQUEE - Theater style
 export const CinemaMarquee: Story = {
   render: ({ date, kids, benQuote }) => (
-    <ChoreDisplay date={date} kids={kids} benQuote={benQuote} style={{ background: "#111" }}>
+    <ChoreDisplay
+      date={date}
+      kids={kids}
+      benQuote={benQuote}
+      style={{ background: "#111" }}
+    >
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Anton&display=swap');
         .cinema { font-family: 'Anton', sans-serif; background: #111; height: 100%; padding: 16px; box-sizing: border-box; }
@@ -206,11 +246,22 @@ export const CinemaMarquee: Story = {
             {kids.map((kid) => (
               <div key={kid.name} className="cinema-kid">
                 <div className="cinema-name">{kid.name}</div>
-                {kid.chores.map((chore, i) => (<div key={i} className="cinema-chore">{chore}</div>))}
+                {kid.chores.map((chore, i) => (
+                  <div key={i} className="cinema-chore">
+                    {chore}
+                  </div>
+                ))}
               </div>
             ))}
           </div>
-          {benQuote && (<div className="cinema-quote">"{benQuote}"<div className="cinema-quote-attr">— SPECIAL MESSAGE FROM BEN</div></div>)}
+          {benQuote && (
+            <div className="cinema-quote">
+              "{benQuote}"
+              <div className="cinema-quote-attr">
+                — SPECIAL MESSAGE FROM BEN
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </ChoreDisplay>

@@ -22,10 +22,7 @@ export async function POST(request: NextRequest) {
   const authHeader = request.headers.get("Authorization");
   if (!authHeader || !authHeader.startsWith("Bearer ")) {
     console.error("Missing or invalid Authorization header");
-    return NextResponse.json(
-      { error: "Unauthorized" },
-      { status: 401 }
-    );
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
   const accessToken = authHeader.slice(7); // Remove "Bearer " prefix
@@ -37,7 +34,7 @@ export async function POST(request: NextRequest) {
       console.error("Access token not found in install_sessions");
       return NextResponse.json(
         { error: "Invalid access token" },
-        { status: 401 }
+        { status: 401 },
       );
     }
 
@@ -49,7 +46,7 @@ export async function POST(request: NextRequest) {
       console.error("Invalid payload:", parseResult.error);
       return NextResponse.json(
         { error: "Invalid payload", details: parseResult.error.issues },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -75,7 +72,7 @@ export async function POST(request: NextRequest) {
     console.error("Success webhook error:", error);
     return NextResponse.json(
       { error: "Internal server error" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

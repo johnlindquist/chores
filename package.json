@@ -6,10 +6,16 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "biome check",
+    "lint": "bun run lint:scripture-footer",
+    "lint:full": "biome check",
+    "lint:scripture-footer": "biome check package.json scripts/verify-scripture-footer.ts scripts/generate-book-of-mormon-scriptures.ts src/app/api/ben-quote/route.ts src/app/api/ben-quote/route.test.ts src/app/api/daily-scripture/route.ts src/app/api/daily-scripture/route.test.ts src/app/api/quotes/route.ts src/app/api/quotes/route.test.ts src/app/api/trmnl/markup/route.ts src/app/ben/page.tsx src/lib/daily-scripture.ts src/lib/daily-scripture.test.ts src/lib/markup-renderer.ts src/lib/markup-renderer.test.ts src/lib/ben-quote-deprecation.ts src/lib/log-event.ts src/lib/scripture-catalog.ts src/lib/scripture-catalog.test.ts src/lib/trmnl-markup-observability.ts src/lib/trmnl-markup-observability.test.ts src/data/book-of-mormon-scriptures.manifest.ts",
     "format": "biome format --write",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "build-storybook": "storybook build",
+    "test:scripture-footer": "vitest run src/lib/daily-scripture.test.ts src/lib/markup-renderer.test.ts src/app/api/ben-quote/route.test.ts src/app/api/quotes/route.test.ts src/app/api/daily-scripture/route.test.ts",
+    "verify:scripture-footer": "bun run scripts/verify-scripture-footer.ts",
+    "verify": "bun run lint && bun run test:scripture-footer && bun run verify:scripture-footer && bun run build",
+    "generate:scriptures": "bun run scripts/generate-book-of-mormon-scriptures.ts"
   },
   "dependencies": {
     "@vercel/postgres": "^0.10.0",

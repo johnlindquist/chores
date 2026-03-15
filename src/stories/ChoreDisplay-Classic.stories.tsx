@@ -1,10 +1,18 @@
 import type { Meta, StoryObj } from "@storybook/nextjs-vite";
-import { ChoreDisplay, sampleKids, sampleDate, sampleQuote } from "../components/ChoreDisplay";
+import {
+  ChoreDisplay,
+  sampleKids,
+  sampleDate,
+  sampleQuote,
+} from "../components/ChoreDisplay";
 
 const meta: Meta<typeof ChoreDisplay> = {
   title: "TRMNL/ChoreDisplay",
   component: ChoreDisplay,
-  parameters: { layout: "centered", backgrounds: { default: "gray", values: [{ name: "gray", value: "#888" }] } },
+  parameters: {
+    layout: "centered",
+    backgrounds: { default: "gray", values: [{ name: "gray", value: "#888" }] },
+  },
   args: { date: sampleDate, kids: sampleKids, benQuote: sampleQuote },
 };
 export default meta;
@@ -37,11 +45,20 @@ export const Brutalist: Story = {
           {kids.map((kid) => (
             <div key={kid.name} className="brutalist-kid">
               <div className="brutalist-name">{kid.name}</div>
-              {kid.chores.map((chore, i) => (<div key={i} className="brutalist-chore">{chore}</div>))}
+              {kid.chores.map((chore, i) => (
+                <div key={i} className="brutalist-chore">
+                  {chore}
+                </div>
+              ))}
             </div>
           ))}
         </div>
-        {benQuote && (<div className="brutalist-quote"><span className="brutalist-quote-label">BEN:</span><span>"{benQuote}"</span></div>)}
+        {benQuote && (
+          <div className="brutalist-quote">
+            <span className="brutalist-quote-label">BEN:</span>
+            <span>"{benQuote}"</span>
+          </div>
+        )}
       </div>
     </ChoreDisplay>
   ),
@@ -68,20 +85,32 @@ export const Newspaper: Story = {
       <div className="newspaper">
         <div className="newspaper-masthead">
           <div className="newspaper-title">The Daily Chores</div>
-          <div className="newspaper-subtitle">All the Tasks Fit to Complete</div>
+          <div className="newspaper-subtitle">
+            All the Tasks Fit to Complete
+          </div>
         </div>
         <div className="newspaper-dateline">
-          <span>Vol. MMXXVI No. 7</span><span>{date}</span><span>Price: One Clean Room</span>
+          <span>Vol. MMXXVI No. 7</span>
+          <span>{date}</span>
+          <span>Price: One Clean Room</span>
         </div>
         <div className="newspaper-columns">
           {kids.map((kid) => (
             <div key={kid.name} className="newspaper-column">
               <div className="newspaper-name">{kid.name}</div>
-              {kid.chores.map((chore, i) => (<div key={i} className="newspaper-chore">• {chore}</div>))}
+              {kid.chores.map((chore, i) => (
+                <div key={i} className="newspaper-chore">
+                  • {chore}
+                </div>
+              ))}
             </div>
           ))}
         </div>
-        {benQuote && (<div className="newspaper-quote"><strong>BEN'S CORNER:</strong> "{benQuote}"</div>)}
+        {benQuote && (
+          <div className="newspaper-quote">
+            <strong>BEN'S CORNER:</strong> "{benQuote}"
+          </div>
+        )}
       </div>
     </ChoreDisplay>
   ),
@@ -115,11 +144,17 @@ export const Typewriter: Story = {
           {kids.map((kid) => (
             <div key={kid.name} className="typewriter-kid">
               <div className="typewriter-name">{kid.name}</div>
-              {kid.chores.map((chore, i) => (<div key={i} className="typewriter-chore">{chore}</div>))}
+              {kid.chores.map((chore, i) => (
+                <div key={i} className="typewriter-chore">
+                  {chore}
+                </div>
+              ))}
             </div>
           ))}
         </div>
-        {benQuote && (<div className="typewriter-quote">Note from Ben: "{benQuote}"</div>)}
+        {benQuote && (
+          <div className="typewriter-quote">Note from Ben: "{benQuote}"</div>
+        )}
       </div>
     </ChoreDisplay>
   ),
@@ -150,11 +185,15 @@ export const SwissGrid: Story = {
           {kids.map((kid) => (
             <div key={kid.name} className="swiss-kid">
               <div className="swiss-name">{kid.name}</div>
-              {kid.chores.map((chore, i) => (<div key={i} className="swiss-chore">{chore}</div>))}
+              {kid.chores.map((chore, i) => (
+                <div key={i} className="swiss-chore">
+                  {chore}
+                </div>
+              ))}
             </div>
           ))}
         </div>
-        {benQuote && (<div className="swiss-quote">BEN — "{benQuote}"</div>)}
+        {benQuote && <div className="swiss-quote">BEN — "{benQuote}"</div>}
       </div>
     </ChoreDisplay>
   ),
@@ -163,7 +202,12 @@ export const SwissGrid: Story = {
 // 5. CHALKBOARD - School slate
 export const Chalkboard: Story = {
   render: ({ date, kids, benQuote }) => (
-    <ChoreDisplay date={date} kids={kids} benQuote={benQuote} style={{ background: "#2a2a2a" }}>
+    <ChoreDisplay
+      date={date}
+      kids={kids}
+      benQuote={benQuote}
+      style={{ background: "#2a2a2a" }}
+    >
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Caveat:wght@400;700&family=Patrick+Hand&display=swap');
         .chalk { font-family: 'Patrick Hand', cursive; background: #2a2a2a; color: #f0f0e8; height: 100%; padding: 20px; box-sizing: border-box; }
@@ -188,11 +232,17 @@ export const Chalkboard: Story = {
             {kids.map((kid) => (
               <div key={kid.name} className="chalk-kid">
                 <div className="chalk-name">{kid.name} ★</div>
-                {kid.chores.map((chore, i) => (<div key={i} className="chalk-chore">{chore}</div>))}
+                {kid.chores.map((chore, i) => (
+                  <div key={i} className="chalk-chore">
+                    {chore}
+                  </div>
+                ))}
               </div>
             ))}
           </div>
-          {benQuote && (<div className="chalk-quote">~ Ben says: "{benQuote}" ~</div>)}
+          {benQuote && (
+            <div className="chalk-quote">~ Ben says: "{benQuote}" ~</div>
+          )}
         </div>
       </div>
     </ChoreDisplay>

@@ -11,10 +11,7 @@ export async function POST(request: NextRequest) {
   const authHeader = request.headers.get("Authorization");
   if (!authHeader || !authHeader.startsWith("Bearer ")) {
     console.error("Missing or invalid Authorization header");
-    return NextResponse.json(
-      { error: "Unauthorized" },
-      { status: 401 }
-    );
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
   const accessToken = authHeader.slice(7);
@@ -26,10 +23,7 @@ export async function POST(request: NextRequest) {
 
     if (!parseResult.success) {
       console.error("Invalid payload:", parseResult.error);
-      return NextResponse.json(
-        { error: "Invalid payload" },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: "Invalid payload" }, { status: 400 });
     }
 
     const { user_uuid } = parseResult.data;
@@ -44,10 +38,7 @@ export async function POST(request: NextRequest) {
 
     if (instance.access_token !== accessToken) {
       console.error("Access token mismatch for uninstall");
-      return NextResponse.json(
-        { error: "Unauthorized" },
-        { status: 401 }
-      );
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
     // Delete the instance
@@ -60,7 +51,7 @@ export async function POST(request: NextRequest) {
     console.error("Uninstall webhook error:", error);
     return NextResponse.json(
       { error: "Internal server error" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

@@ -1,10 +1,18 @@
 import type { Meta, StoryObj } from "@storybook/nextjs-vite";
-import { ChoreDisplay, sampleKids, sampleDate, sampleQuote } from "../components/ChoreDisplay";
+import {
+  ChoreDisplay,
+  sampleKids,
+  sampleDate,
+  sampleQuote,
+} from "../components/ChoreDisplay";
 
 const meta: Meta<typeof ChoreDisplay> = {
   title: "TRMNL/ChoreDisplay",
   component: ChoreDisplay,
-  parameters: { layout: "centered", backgrounds: { default: "gray", values: [{ name: "gray", value: "#888" }] } },
+  parameters: {
+    layout: "centered",
+    backgrounds: { default: "gray", values: [{ name: "gray", value: "#888" }] },
+  },
   args: { date: sampleDate, kids: sampleKids, benQuote: sampleQuote },
 };
 export default meta;
@@ -41,11 +49,15 @@ export const Woodblock: Story = {
           {kids.map((kid) => (
             <div key={kid.name} className="wood-kid">
               <div className="wood-name">{kid.name}</div>
-              {kid.chores.map((chore, i) => (<div key={i} className="wood-chore">{chore}</div>))}
+              {kid.chores.map((chore, i) => (
+                <div key={i} className="wood-chore">
+                  {chore}
+                </div>
+              ))}
             </div>
           ))}
         </div>
-        {benQuote && (<div className="wood-quote">「{benQuote}」— Ben</div>)}
+        {benQuote && <div className="wood-quote">「{benQuote}」— Ben</div>}
       </div>
     </ChoreDisplay>
   ),
@@ -54,7 +66,12 @@ export const Woodblock: Story = {
 // 17. SCIENCE LAB - Periodic table inspired
 export const ScienceLab: Story = {
   render: ({ date, kids, benQuote }) => (
-    <ChoreDisplay date={date} kids={kids} benQuote={benQuote} style={{ background: "#111" }}>
+    <ChoreDisplay
+      date={date}
+      kids={kids}
+      benQuote={benQuote}
+      style={{ background: "#111" }}
+    >
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Orbitron:wght@400;700&display=swap');
         .sci { font-family: 'JetBrains Mono', monospace; background: #111; color: #ddd; height: 100%; padding: 18px; box-sizing: border-box; }
@@ -84,12 +101,21 @@ export const ScienceLab: Story = {
               <span className="sci-number">{index + 1}</span>
               <div className="sci-name">{kid.name}</div>
               <div className="sci-tasks">
-                {kid.chores.map((chore, i) => (<div key={i} className="sci-chore">{chore}</div>))}
+                {kid.chores.map((chore, i) => (
+                  <div key={i} className="sci-chore">
+                    {chore}
+                  </div>
+                ))}
               </div>
             </div>
           ))}
         </div>
-        {benQuote && (<div className="sci-quote"><span className="sci-quote-label">[BEN]:</span><span>"{benQuote}"</span></div>)}
+        {benQuote && (
+          <div className="sci-quote">
+            <span className="sci-quote-label">[BEN]:</span>
+            <span>"{benQuote}"</span>
+          </div>
+        )}
       </div>
     </ChoreDisplay>
   ),
@@ -123,11 +149,17 @@ export const RecipeCard: Story = {
             <div key={kid.name} className="recipe-kid">
               <div className="recipe-name">{kid.name}</div>
               <div className="recipe-label">Instructions:</div>
-              {kid.chores.map((chore, i) => (<div key={i} className="recipe-chore">{chore}</div>))}
+              {kid.chores.map((chore, i) => (
+                <div key={i} className="recipe-chore">
+                  {chore}
+                </div>
+              ))}
             </div>
           ))}
         </div>
-        {benQuote && (<div className="recipe-quote">Chef Ben says: "{benQuote}"</div>)}
+        {benQuote && (
+          <div className="recipe-quote">Chef Ben says: "{benQuote}"</div>
+        )}
       </div>
     </ChoreDisplay>
   ),
@@ -136,7 +168,12 @@ export const RecipeCard: Story = {
 // 19. LABEL MAKER - Embossed tape style
 export const LabelMaker: Story = {
   render: ({ date, kids, benQuote }) => (
-    <ChoreDisplay date={date} kids={kids} benQuote={benQuote} style={{ background: "#e8e8e8" }}>
+    <ChoreDisplay
+      date={date}
+      kids={kids}
+      benQuote={benQuote}
+      style={{ background: "#e8e8e8" }}
+    >
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Inconsolata:wght@700&display=swap');
         .label { font-family: 'Inconsolata', monospace; background: #e8e8e8; height: 100%; padding: 24px; box-sizing: border-box; }
@@ -170,7 +207,11 @@ export const LabelMaker: Story = {
             </div>
           ))}
         </div>
-        {benQuote && (<div className="label-quote"><div className="label-quote-tape">BEN: {benQuote}</div></div>)}
+        {benQuote && (
+          <div className="label-quote">
+            <div className="label-quote-tape">BEN: {benQuote}</div>
+          </div>
+        )}
       </div>
     </ChoreDisplay>
   ),
@@ -179,7 +220,12 @@ export const LabelMaker: Story = {
 // 20. TRAIN STATION - Departure board style
 export const TrainStation: Story = {
   render: ({ date, kids, benQuote }) => (
-    <ChoreDisplay date={date} kids={kids} benQuote={benQuote} style={{ background: "#1a1a1a" }}>
+    <ChoreDisplay
+      date={date}
+      kids={kids}
+      benQuote={benQuote}
+      style={{ background: "#1a1a1a" }}
+    >
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
         .train { font-family: 'Share Tech Mono', monospace; background: #1a1a1a; color: #fff; height: 100%; padding: 18px; box-sizing: border-box; }
@@ -216,7 +262,11 @@ export const TrainStation: Story = {
             </div>
           ))}
         </div>
-        {benQuote && (<div className="train-ticker">ANNOUNCEMENT: {benQuote.toUpperCase()} — BEN</div>)}
+        {benQuote && (
+          <div className="train-ticker">
+            ANNOUNCEMENT: {benQuote.toUpperCase()} — BEN
+          </div>
+        )}
       </div>
     </ChoreDisplay>
   ),

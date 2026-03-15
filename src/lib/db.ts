@@ -19,9 +19,7 @@ export interface PluginInstance {
 }
 
 // Install Sessions
-export async function createInstallSession(
-  accessToken: string
-): Promise<void> {
+export async function createInstallSession(accessToken: string): Promise<void> {
   await sql`
     INSERT INTO install_sessions (access_token)
     VALUES (${accessToken})
@@ -30,7 +28,7 @@ export async function createInstallSession(
 }
 
 export async function getInstallSession(
-  accessToken: string
+  accessToken: string,
 ): Promise<InstallSession | null> {
   const result = await sql<InstallSession>`
     SELECT * FROM install_sessions WHERE access_token = ${accessToken}
@@ -77,7 +75,7 @@ export async function createPluginInstance(data: {
 }
 
 export async function getPluginInstance(
-  uuid: string
+  uuid: string,
 ): Promise<PluginInstance | null> {
   const result = await sql<PluginInstance>`
     SELECT * FROM plugin_instances WHERE uuid = ${uuid}
@@ -86,7 +84,7 @@ export async function getPluginInstance(
 }
 
 export async function getPluginInstanceByToken(
-  accessToken: string
+  accessToken: string,
 ): Promise<PluginInstance | null> {
   const result = await sql<PluginInstance>`
     SELECT * FROM plugin_instances WHERE access_token = ${accessToken}
@@ -96,7 +94,7 @@ export async function getPluginInstanceByToken(
 
 export async function updateScheduleText(
   uuid: string,
-  scheduleText: string
+  scheduleText: string,
 ): Promise<void> {
   await sql`
     UPDATE plugin_instances
@@ -126,7 +124,7 @@ export async function setCurrentBenQuote(quote: string): Promise<void> {
 }
 
 // Default schedule template
-function getDefaultSchedule(): string {
+export function getDefaultSchedule(): string {
   return `@kids Ava, Ben, Chloe, Dylan
 
 # Weekly defaults

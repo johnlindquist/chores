@@ -1,10 +1,18 @@
 import type { Meta, StoryObj } from "@storybook/nextjs-vite";
-import { ChoreDisplay, sampleKids, sampleDate, sampleQuote } from "../components/ChoreDisplay";
+import {
+  ChoreDisplay,
+  sampleKids,
+  sampleDate,
+  sampleQuote,
+} from "../components/ChoreDisplay";
 
 const meta: Meta<typeof ChoreDisplay> = {
   title: "TRMNL/ChoreDisplay",
   component: ChoreDisplay,
-  parameters: { layout: "centered", backgrounds: { default: "gray", values: [{ name: "gray", value: "#888" }] } },
+  parameters: {
+    layout: "centered",
+    backgrounds: { default: "gray", values: [{ name: "gray", value: "#888" }] },
+  },
   args: { date: sampleDate, kids: sampleKids, benQuote: sampleQuote },
 };
 export default meta;
@@ -13,7 +21,12 @@ type Story = StoryObj<typeof ChoreDisplay>;
 // 6. TERMINAL - Retro computer
 export const Terminal: Story = {
   render: ({ date, kids, benQuote }) => (
-    <ChoreDisplay date={date} kids={kids} benQuote={benQuote} style={{ background: "#000" }}>
+    <ChoreDisplay
+      date={date}
+      kids={kids}
+      benQuote={benQuote}
+      style={{ background: "#000" }}
+    >
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
         .term { font-family: 'VT323', monospace; background: #000; color: #fff; height: 100%; padding: 16px; box-sizing: border-box; }
@@ -41,11 +54,19 @@ export const Terminal: Story = {
           {kids.map((kid) => (
             <div key={kid.name} className="term-kid">
               <div className="term-name">{kid.name.toUpperCase()}</div>
-              {kid.chores.map((chore, i) => (<div key={i} className="term-chore">{chore}</div>))}
+              {kid.chores.map((chore, i) => (
+                <div key={i} className="term-chore">
+                  {chore}
+                </div>
+              ))}
             </div>
           ))}
         </div>
-        {benQuote && (<div className="term-quote"><span className="term-blink">█</span> BEN.says("{benQuote}")</div>)}
+        {benQuote && (
+          <div className="term-quote">
+            <span className="term-blink">█</span> BEN.says("{benQuote}")
+          </div>
+        )}
       </div>
     </ChoreDisplay>
   ),
@@ -54,7 +75,12 @@ export const Terminal: Story = {
 // 7. BLUEPRINT - Technical drawing
 export const Blueprint: Story = {
   render: ({ date, kids, benQuote }) => (
-    <ChoreDisplay date={date} kids={kids} benQuote={benQuote} style={{ background: "#fff" }}>
+    <ChoreDisplay
+      date={date}
+      kids={kids}
+      benQuote={benQuote}
+      style={{ background: "#fff" }}
+    >
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Courier+Prime:wght@400;700&display=swap');
         .bp { font-family: 'Courier Prime', monospace; background: #fff; height: 100%; padding: 16px; box-sizing: border-box; position: relative; }
@@ -76,17 +102,24 @@ export const Blueprint: Story = {
         <div className="bp-border">
           <div className="bp-header">
             <span className="bp-title">Chore Specifications</span>
-            <div className="bp-meta"><div>DWG: CHORES-001</div><div>{date}</div></div>
+            <div className="bp-meta">
+              <div>DWG: CHORES-001</div>
+              <div>{date}</div>
+            </div>
           </div>
           <div className="bp-grid">
             {kids.map((kid) => (
               <div key={kid.name} className="bp-kid">
                 <div className="bp-name">{kid.name}</div>
-                {kid.chores.map((chore, i) => (<div key={i} className="bp-chore">{chore}</div>))}
+                {kid.chores.map((chore, i) => (
+                  <div key={i} className="bp-chore">
+                    {chore}
+                  </div>
+                ))}
               </div>
             ))}
           </div>
-          {benQuote && (<div className="bp-quote">NOTE: {benQuote} — BEN</div>)}
+          {benQuote && <div className="bp-quote">NOTE: {benQuote} — BEN</div>}
         </div>
       </div>
     </ChoreDisplay>
@@ -119,11 +152,15 @@ export const MinimalZen: Story = {
           {kids.map((kid) => (
             <div key={kid.name} className="zen-kid">
               <div className="zen-name">{kid.name}</div>
-              {kid.chores.map((chore, i) => (<div key={i} className="zen-chore">{chore}</div>))}
+              {kid.chores.map((chore, i) => (
+                <div key={i} className="zen-chore">
+                  {chore}
+                </div>
+              ))}
             </div>
           ))}
         </div>
-        {benQuote && (<div className="zen-quote">— {benQuote}</div>)}
+        {benQuote && <div className="zen-quote">— {benQuote}</div>}
       </div>
     </ChoreDisplay>
   ),
@@ -150,7 +187,10 @@ export const Magazine: Story = {
       `}</style>
       <div className="mag">
         <div className="mag-hero">
-          <div><div className="mag-title">CHORES</div><div className="mag-sub">Daily Edition</div></div>
+          <div>
+            <div className="mag-title">CHORES</div>
+            <div className="mag-sub">Daily Edition</div>
+          </div>
           <div className="mag-date">{date}</div>
         </div>
         <div className="mag-content">
@@ -158,11 +198,19 @@ export const Magazine: Story = {
             {kids.map((kid) => (
               <div key={kid.name} className="mag-kid">
                 <div className="mag-name">{kid.name}</div>
-                {kid.chores.map((chore, i) => (<div key={i} className="mag-chore">• {chore}</div>))}
+                {kid.chores.map((chore, i) => (
+                  <div key={i} className="mag-chore">
+                    • {chore}
+                  </div>
+                ))}
               </div>
             ))}
           </div>
-          {benQuote && (<div className="mag-quote">"{benQuote}"<span className="mag-quote-attr">— Ben</span></div>)}
+          {benQuote && (
+            <div className="mag-quote">
+              "{benQuote}"<span className="mag-quote-attr">— Ben</span>
+            </div>
+          )}
         </div>
       </div>
     </ChoreDisplay>
@@ -172,7 +220,12 @@ export const Magazine: Story = {
 // 10. SCOREBOARD - Sports style
 export const Scoreboard: Story = {
   render: ({ date, kids, benQuote }) => (
-    <ChoreDisplay date={date} kids={kids} benQuote={benQuote} style={{ background: "#000" }}>
+    <ChoreDisplay
+      date={date}
+      kids={kids}
+      benQuote={benQuote}
+      style={{ background: "#000" }}
+    >
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Black+Ops+One&family=Russo+One&display=swap');
         .score { font-family: 'Russo One', sans-serif; background: #000; height: 100%; padding: 14px; box-sizing: border-box; }
@@ -200,15 +253,23 @@ export const Scoreboard: Story = {
           <div className="score-grid">
             {kids.map((kid) => (
               <div key={kid.name} className="score-player">
-                <div className="score-nameplate"><div className="score-name">{kid.name}</div></div>
+                <div className="score-nameplate">
+                  <div className="score-name">{kid.name}</div>
+                </div>
                 <div className="score-count">{kid.chores.length}</div>
                 <div className="score-tasks">
-                  {kid.chores.map((chore, i) => (<div key={i} className="score-chore">{chore}</div>))}
+                  {kid.chores.map((chore, i) => (
+                    <div key={i} className="score-chore">
+                      {chore}
+                    </div>
+                  ))}
                 </div>
               </div>
             ))}
           </div>
-          {benQuote && (<div className="score-ticker">BREAKING: BEN SAYS "{benQuote}"</div>)}
+          {benQuote && (
+            <div className="score-ticker">BREAKING: BEN SAYS "{benQuote}"</div>
+          )}
         </div>
       </div>
     </ChoreDisplay>

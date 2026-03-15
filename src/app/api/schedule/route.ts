@@ -20,7 +20,10 @@ export async function GET(request: NextRequest) {
   try {
     const instance = await getPluginInstance(uuid);
     if (!instance) {
-      return NextResponse.json({ error: "Instance not found" }, { status: 404 });
+      return NextResponse.json(
+        { error: "Instance not found" },
+        { status: 404 },
+      );
     }
 
     const timezone = instance.time_zone_iana || "America/Denver";
@@ -40,7 +43,7 @@ export async function GET(request: NextRequest) {
     console.error("Get schedule error:", error);
     return NextResponse.json(
       { error: "Internal server error" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
@@ -54,7 +57,7 @@ export async function POST(request: NextRequest) {
     if (!parseResult.success) {
       return NextResponse.json(
         { error: "Invalid payload", details: parseResult.error.issues },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -68,7 +71,10 @@ export async function POST(request: NextRequest) {
 
     const instance = await getPluginInstance(uuid);
     if (!instance) {
-      return NextResponse.json({ error: "Instance not found" }, { status: 404 });
+      return NextResponse.json(
+        { error: "Instance not found" },
+        { status: 404 },
+      );
     }
 
     await updateScheduleText(uuid, schedule_text);
@@ -88,7 +94,7 @@ export async function POST(request: NextRequest) {
     console.error("Update schedule error:", error);
     return NextResponse.json(
       { error: "Internal server error" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
