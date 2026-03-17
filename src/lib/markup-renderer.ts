@@ -133,9 +133,9 @@ function getBaseStyles(id: string): string {
       #${id} .sneak-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 3px; margin-bottom: 6px; }
       #${id} .sneak-words { display: grid; grid-template-columns: repeat(5, 1fr); gap: 4px 14px; }
       #${id} .sneak-item { }
-      #${id} .sneak-cat { font-size: 10px; font-weight: 400; text-transform: uppercase; letter-spacing: 0.5px; color: #999; }
+      #${id} .sneak-cat { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: #ccc; }
       #${id} .sneak-word { font-size: 15px; font-weight: 700; color: #fff; }
-      #${id} .sneak-def { font-size: 11px; color: #bbb; }
+      #${id} .sneak-def { font-size: 11px; font-weight: 700; color: #ddd; }
       #${id} .scripture { background: #fff; color: #000; padding: 12px 20px; border-top: 2px solid #000; }
       #${id} .scripture-ref { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 3px; }
       #${id} .scripture-body { font-size: 14px; line-height: 1.4; white-space: normal; }
@@ -232,7 +232,7 @@ export function renderMarkup(
         #${halfHorizontalId} .chore { font-size: 13px; padding: 2px 0; }
         #${halfHorizontalId} .scripture { padding: 6px 14px; background: #000; color: #fff; border-top: none; }
         #${halfHorizontalId} .scripture-ref { font-size: 10px; margin-bottom: 2px; }
-        #${halfHorizontalId} .scripture-body { font-size: 12px; line-height: 1.3; }
+        #${halfHorizontalId} .scripture-body { font-size: 12px; line-height: 1.3; font-weight: 700; }
       </style>
       <div class="date-bar">${dateStr}</div>
       <div class="content">
@@ -255,7 +255,7 @@ export function renderMarkup(
         #${halfVerticalId} .chore { font-size: 13px; padding: 3px 0; }
         #${halfVerticalId} .scripture { padding: 10px 12px; background: #000; color: #fff; border-top: none; }
         #${halfVerticalId} .scripture-ref { font-size: 10px; margin-bottom: 2px; }
-        #${halfVerticalId} .scripture-body { font-size: 12px; line-height: 1.35; }
+        #${halfVerticalId} .scripture-body { font-size: 12px; line-height: 1.35; font-weight: 700; }
       </style>
       <div class="date-bar">${dateStr}</div>
       <div class="content">
