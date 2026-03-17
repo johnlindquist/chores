@@ -121,24 +121,24 @@ function getBaseStyles(id: string): string {
     <style>
       #${id} { font-family: var(--font-geist-pixel-square), Arial, Helvetica, sans-serif; background: #fff; color: #000; padding: 0; height: 100%; box-sizing: border-box; display: flex; flex-direction: column; }
       #${id} .content { min-height: 0; flex: 1 1 auto; overflow: hidden; display: flex; flex-direction: column; }
-      #${id} .date-bar { padding: 8px 20px; font-size: 14px; color: #000; letter-spacing: 0.5px; border-bottom: 1px solid #000; }
+      #${id} .date-bar { padding: 8px 20px; font-size: 18px; font-weight: 700; color: #000; letter-spacing: 0.5px; border-bottom: 1px solid #000; }
       #${id} .grid { display: grid; grid-template-columns: repeat(4, 1fr); flex: 1 1 auto; }
       #${id} .kid { padding: 12px 14px; border-right: 1px solid #000; }
       #${id} .kid:last-child { border-right: none; }
-      #${id} .kid-name { font-size: 26px; font-weight: 700; background: #000; color: #fff; padding: 6px 8px; margin: -12px -14px 8px -14px; letter-spacing: 0.5px; }
-      #${id} .chore { font-size: 16px; padding: 5px 0; color: #000; line-height: 1.3; }
+      #${id} .kid-name { font-size: 28px; font-weight: 700; background: #000; color: #fff; padding: 6px 8px; margin: -12px -14px 8px -14px; letter-spacing: 0.5px; }
+      #${id} .chore { font-size: 18px; padding: 5px 0; color: #000; line-height: 1.3; }
       #${id} .chore + .chore { border-top: 1px dotted #000; }
-      #${id} .more { font-size: 14px; }
+      #${id} .more { font-size: 16px; }
       #${id} .sneak { padding: 10px 20px; border-top: 2px solid #000; background: #000; color: #fff; }
-      #${id} .sneak-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 3px; margin-bottom: 6px; }
+      #${id} .sneak-label { font-size: 16px; font-weight: 700; text-transform: uppercase; letter-spacing: 3px; margin-bottom: 6px; }
       #${id} .sneak-words { display: grid; grid-template-columns: repeat(5, 1fr); gap: 4px 14px; }
       #${id} .sneak-item { }
-      #${id} .sneak-cat { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: #ccc; }
-      #${id} .sneak-word { font-size: 15px; font-weight: 700; color: #fff; }
-      #${id} .sneak-def { font-size: 11px; font-weight: 700; color: #ddd; }
+      #${id} .sneak-cat { font-size: 14px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: #fff; }
+      #${id} .sneak-word { font-size: 20px; font-weight: 700; color: #fff; }
+      #${id} .sneak-def { font-size: 16px; font-weight: 700; color: #fff; }
       #${id} .scripture { background: #fff; color: #000; padding: 12px 20px; border-top: 2px solid #000; }
-      #${id} .scripture-ref { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 3px; }
-      #${id} .scripture-body { font-size: 14px; line-height: 1.4; white-space: normal; }
+      #${id} .scripture-ref { font-size: 16px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 3px; }
+      #${id} .scripture-body { font-size: 18px; line-height: 1.4; white-space: normal; }
     </style>
   `;
 }
@@ -225,14 +225,14 @@ export function renderMarkup(
     <div id="${halfHorizontalId}">
       ${getBaseStyles(halfHorizontalId)}
       <style>
-        #${halfHorizontalId} .date-bar { padding: 5px 14px; font-size: 12px; }
+        #${halfHorizontalId} .date-bar { padding: 5px 14px; font-size: 14px; }
         #${halfHorizontalId} .grid { grid-template-columns: repeat(4, 1fr); }
         #${halfHorizontalId} .kid { padding: 6px 10px; }
-        #${halfHorizontalId} .kid-name { font-size: 18px; padding: 4px 6px; margin: -6px -10px 5px -10px; }
-        #${halfHorizontalId} .chore { font-size: 13px; padding: 2px 0; }
+        #${halfHorizontalId} .kid-name { font-size: 20px; padding: 4px 6px; margin: -6px -10px 5px -10px; }
+        #${halfHorizontalId} .chore { font-size: 15px; padding: 2px 0; }
         #${halfHorizontalId} .scripture { padding: 6px 14px; background: #000; color: #fff; border-top: none; }
-        #${halfHorizontalId} .scripture-ref { font-size: 10px; margin-bottom: 2px; }
-        #${halfHorizontalId} .scripture-body { font-size: 12px; line-height: 1.3; font-weight: 700; }
+        #${halfHorizontalId} .scripture-ref { font-size: 12px; margin-bottom: 2px; }
+        #${halfHorizontalId} .scripture-body { font-size: 14px; line-height: 1.3; font-weight: 700; }
       </style>
       <div class="date-bar">${dateStr}</div>
       <div class="content">
@@ -247,15 +247,15 @@ export function renderMarkup(
     <div id="${halfVerticalId}">
       ${getBaseStyles(halfVerticalId)}
       <style>
-        #${halfVerticalId} .date-bar { padding: 6px 12px; font-size: 12px; }
+        #${halfVerticalId} .date-bar { padding: 6px 12px; font-size: 14px; }
         #${halfVerticalId} .grid { grid-template-columns: 1fr 1fr; }
         #${halfVerticalId} .kid { padding: 10px 12px; border-right: 1px solid #000; border-bottom: 1px solid #000; }
         #${halfVerticalId} .kid:nth-child(2n) { border-right: none; }
-        #${halfVerticalId} .kid-name { font-size: 18px; padding: 4px 6px; margin: -10px -12px 6px -12px; }
-        #${halfVerticalId} .chore { font-size: 13px; padding: 3px 0; }
+        #${halfVerticalId} .kid-name { font-size: 20px; padding: 4px 6px; margin: -10px -12px 6px -12px; }
+        #${halfVerticalId} .chore { font-size: 15px; padding: 3px 0; }
         #${halfVerticalId} .scripture { padding: 10px 12px; background: #000; color: #fff; border-top: none; }
-        #${halfVerticalId} .scripture-ref { font-size: 10px; margin-bottom: 2px; }
-        #${halfVerticalId} .scripture-body { font-size: 12px; line-height: 1.35; font-weight: 700; }
+        #${halfVerticalId} .scripture-ref { font-size: 12px; margin-bottom: 2px; }
+        #${halfVerticalId} .scripture-body { font-size: 14px; line-height: 1.35; font-weight: 700; }
       </style>
       <div class="date-bar">${dateStr}</div>
       <div class="content">
@@ -270,12 +270,12 @@ export function renderMarkup(
     <div id="${quadrantId}">
       ${getBaseStyles(quadrantId)}
       <style>
-        #${quadrantId} .date-bar { padding: 4px 10px; font-size: 11px; }
+        #${quadrantId} .date-bar { padding: 4px 10px; font-size: 13px; }
         #${quadrantId} .grid { grid-template-columns: 1fr 1fr; }
         #${quadrantId} .kid { padding: 6px 8px; border-right: 1px solid #000; border-bottom: 1px solid #000; }
         #${quadrantId} .kid:nth-child(2n) { border-right: none; }
-        #${quadrantId} .kid-name { font-size: 14px; padding: 3px 5px; margin: -6px -8px 4px -8px; }
-        #${quadrantId} .chore { font-size: 12px; padding: 2px 0; }
+        #${quadrantId} .kid-name { font-size: 16px; padding: 3px 5px; margin: -6px -8px 4px -8px; }
+        #${quadrantId} .chore { font-size: 14px; padding: 2px 0; }
         #${quadrantId} .scripture { display: none; }
       </style>
       <div class="date-bar">${date.toFormat("ccc, LLL d")}</div>
