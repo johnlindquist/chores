@@ -125,7 +125,7 @@ function getBaseStyles(id: string): string {
       #${id} .grid { display: grid; grid-template-columns: repeat(4, 1fr); flex: 1 1 auto; }
       #${id} .kid { padding: 12px 14px; border-right: 1px solid #000; }
       #${id} .kid:last-child { border-right: none; }
-      #${id} .kid-name { font-size: 26px; font-weight: 700; padding-bottom: 6px; margin-bottom: 8px; border-bottom: 3px solid #000; letter-spacing: 0.5px; }
+      #${id} .kid-name { font-size: 26px; font-weight: 700; background: #000; color: #fff; padding: 6px 8px; margin: -12px -14px 8px -14px; letter-spacing: 0.5px; }
       #${id} .chore { font-size: 16px; padding: 5px 0; color: #000; line-height: 1.3; }
       #${id} .chore + .chore { border-top: 1px dotted #000; }
       #${id} .more { font-size: 14px; }
@@ -228,7 +228,7 @@ export function renderMarkup(
         #${halfHorizontalId} .date-bar { padding: 5px 14px; font-size: 12px; }
         #${halfHorizontalId} .grid { grid-template-columns: repeat(4, 1fr); }
         #${halfHorizontalId} .kid { padding: 6px 10px; }
-        #${halfHorizontalId} .kid-name { font-size: 18px; padding-bottom: 3px; margin-bottom: 5px; border-bottom: 2px solid #000; }
+        #${halfHorizontalId} .kid-name { font-size: 18px; padding: 4px 6px; margin: -6px -10px 5px -10px; }
         #${halfHorizontalId} .chore { font-size: 13px; padding: 2px 0; }
         #${halfHorizontalId} .scripture { padding: 6px 14px; background: #000; color: #fff; border-top: none; }
         #${halfHorizontalId} .scripture-ref { font-size: 10px; margin-bottom: 2px; }
@@ -251,7 +251,7 @@ export function renderMarkup(
         #${halfVerticalId} .grid { grid-template-columns: 1fr 1fr; }
         #${halfVerticalId} .kid { padding: 10px 12px; border-right: 1px solid #000; border-bottom: 1px solid #000; }
         #${halfVerticalId} .kid:nth-child(2n) { border-right: none; }
-        #${halfVerticalId} .kid-name { font-size: 18px; padding-bottom: 4px; margin-bottom: 6px; border-bottom: 2px solid #000; }
+        #${halfVerticalId} .kid-name { font-size: 18px; padding: 4px 6px; margin: -10px -12px 6px -12px; }
         #${halfVerticalId} .chore { font-size: 13px; padding: 3px 0; }
         #${halfVerticalId} .scripture { padding: 10px 12px; background: #000; color: #fff; border-top: none; }
         #${halfVerticalId} .scripture-ref { font-size: 10px; margin-bottom: 2px; }
@@ -274,7 +274,7 @@ export function renderMarkup(
         #${quadrantId} .grid { grid-template-columns: 1fr 1fr; }
         #${quadrantId} .kid { padding: 6px 8px; border-right: 1px solid #000; border-bottom: 1px solid #000; }
         #${quadrantId} .kid:nth-child(2n) { border-right: none; }
-        #${quadrantId} .kid-name { font-size: 14px; padding-bottom: 2px; margin-bottom: 4px; border-bottom: 2px solid #000; }
+        #${quadrantId} .kid-name { font-size: 14px; padding: 3px 5px; margin: -6px -8px 4px -8px; }
         #${quadrantId} .chore { font-size: 12px; padding: 2px 0; }
         #${quadrantId} .scripture { display: none; }
       </style>
