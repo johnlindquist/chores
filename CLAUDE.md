@@ -98,3 +98,26 @@ Optional: `ADMIN_PASSCODE` (protects schedule/quote updates)
 - **Tailwind CSS v4** via PostCSS
 - **Zod** for API request validation
 - **Luxon** for timezone-aware date handling
+
+## Design Context
+
+### Users
+A family of four kids (Ava, Ben, Chloe, Dylan) who check a TRMNL e-ink display each morning to see their chores, a daily scripture, and vocabulary words to sneak into conversation.
+
+### Brand Personality
+**Warm, playful, encouraging.** A family bulletin board with heart — not a task tracker. Word Sneak and daily scripture give it personality beyond a chore list.
+
+### Aesthetic Direction
+- **Reference:** Kindle/e-reader — clean typography, comfortable reading, content-first
+- **Anti-references:** Cluttered bulletin boards (every element earns its space), boring plain text (needs visual structure)
+- **Theme:** Black and white only (e-ink constraint), high-contrast, typography-driven
+
+### Emotional Goal
+**Curiosity and delight.** Kids should feel drawn to check the display — the scripture and Word Sneak make it interesting, not just obligatory.
+
+### Design Principles
+1. **Every element earns its space.** No decoration — but "delight" is a valid purpose.
+2. **Typography is the design system.** Hierarchy comes from font size, weight, spacing, and case.
+3. **Scannable first, readable second.** Design for the glance, reward the read.
+4. **Warm structure, not cold grids.** Organized but approachable.
+5. **Surprise within consistency.** Stable layout, rotating content.
