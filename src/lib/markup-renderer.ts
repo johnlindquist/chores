@@ -119,7 +119,7 @@ function buildMarkupRootId(
 function getBaseStyles(id: string): string {
   return `
     <style>
-      #${id} { font-family: var(--font-geist-pixel-square), Arial, Helvetica, sans-serif; background: #fff; color: #000; padding: 0; height: 100%; box-sizing: border-box; display: flex; flex-direction: column; }
+      #${id} { font-family: Arial, Helvetica, sans-serif; background: #fff; color: #000; padding: 0; height: 100%; box-sizing: border-box; display: flex; flex-direction: column; }
       #${id} .content { min-height: 0; flex: 1 1 auto; overflow: hidden; display: flex; flex-direction: column; }
       #${id} .date-bar { padding: 8px 20px; font-size: 14px; color: #000; letter-spacing: 0.5px; border-bottom: 1px solid #000; }
       #${id} .grid { display: grid; grid-template-columns: repeat(4, 1fr); flex: 1 1 auto; }
